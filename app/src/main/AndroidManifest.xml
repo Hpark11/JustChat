@@ -16,7 +16,8 @@
         </activity>
 
         <activity android:name=".ChattingActivity"
-            android:theme="@style/TitleBarTransparent">
+            android:theme="@style/TitleBarTransparent"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
 

@@ -25,4 +25,9 @@ public final class Codes {
         Key(String val) { this.val = val; }
     }
 
+    public static final String success = "1";
+    public static final String fail = "1";
+
+
+
 }
