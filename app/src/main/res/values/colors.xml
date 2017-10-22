@@ -9,4 +9,6 @@
 
     <color name="chattingBackground">#f1f1f1</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="lightGray">#e1e1e1</color>
 </resources>

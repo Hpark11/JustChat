@@ -31,7 +31,6 @@ import random.com.justchat.util.Codes;
 /**
  * Created by hpark_ipl on 2017. 10. 18..
  */
-
 public class ChattingActivity extends AppCompatActivity {
     ActivityChattingBinding b;
     private final String TAG = this.getClass().getSimpleName();
@@ -89,6 +88,7 @@ public class ChattingActivity extends AppCompatActivity {
         @Override
         public void onConnect() {
             socket.emit("roomCheck");
+
         }
 
         @Override
@@ -104,6 +104,11 @@ public class ChattingActivity extends AppCompatActivity {
         @Override
         public void on(String event, IOAcknowledge ioAcknowledge, Object... objects) {
             String data = (new Gson()).toJson(objects);
+
+            if (event.equals(Codes.Event.completeMatch.val)) {
+
+            }
+
             try {
                 JSONArray array = new JSONArray(data);
                 for (int i = 0; i < array.length(); i++) {
@@ -166,8 +171,11 @@ public class ChattingActivity extends AppCompatActivity {
         }
     };
 
+    public void statusBubble() {
+        
+    }
 
-    public void chatBubble(String message, boolean type){
+    public void chatBubble(String message, boolean type) {
         TextView textView = new TextView(ChattingActivity.this);
         textView.setText(message);
         textView.setMaxWidth(600);
