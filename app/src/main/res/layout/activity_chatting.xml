@@ -11,7 +11,6 @@
         android:id="@+id/chatRootLayout">
 
 
-        
         <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="80dp"
@@ -76,7 +75,10 @@
             app:layout_constraintRight_toRightOf="parent"
             android:background="@drawable/gradient_bar"
             android:id="@+id/bottomChatTextLayout"
+            android:clipChildren="true"
             >
+
+
 
             <ImageView
                 android:id="@+id/newChatButton"
@@ -110,7 +112,7 @@
 
             <EditText
                 android:id="@+id/contentEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
@@ -151,21 +153,31 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/coverLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
             android:alpha="0.65"
             android:background="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/bottomChatTextLayout"
+            app:layout_constraintBottom_toTopOf="@+id/bottomChatTextLayout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
-            app:layout_constraintVertical_bias="0.5"
-            android:visibility="invisible">
-
+            android:visibility="visible">
         </android.support.constraint.ConstraintLayout>
+
+
+        <include
+            android:id="@+id/optionBox"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            layout="@layout/option_box_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/bottomChatTextLayout"
+            android:layout_marginBottom="43dp"
+            android:layout_marginLeft="41dp"
+            android:visibility="visible">
+
+        </include>
+
 
     </android.support.constraint.ConstraintLayout>
 

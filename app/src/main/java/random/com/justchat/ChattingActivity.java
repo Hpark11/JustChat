@@ -55,7 +55,7 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void initView() {
         b.newChatButton.setOnTouchListener(onNewChatTouchListener);
-        b.optionsButton.setOnTouchListener(onOptionsTouchListener);
+        b.optionsButton.setOnClickListener(onOptionsClickListener);
         b.sendEventTextView.setOnTouchListener(onSendTouchListener);
 
         reconnect();
@@ -146,13 +146,19 @@ public class ChattingActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnTouchListener onOptionsTouchListener = new View.OnTouchListener() {
+    private boolean isOptionOpened = false;
+    private boolean blockDup = true;
+    private View.OnClickListener onOptionsClickListener = new View.OnClickListener() {
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (socket != null) {
-                socket.emit(Codes.Event.sendMessage.val, "Hello~!~!");
+        public void onClick(View v) {
+            if(blockDup) {
+                blockDup = false;
+                isOptionOpened = !isOptionOpened;
+                b.coverLayout.setVisibility(isOptionOpened? View.VISIBLE : View.INVISIBLE);
+                b.optionBox.setVisibility(isOptionOpened? View.VISIBLE : View.INVISIBLE);
+                b.optionsButton.setBackgroundResource(isOptionOpened ? R.drawable.btn_file_x : R.drawable.btn_file);
+                blockDup = true;
             }
-            return false;
         }
     };
 
