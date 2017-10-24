@@ -1,12 +1,18 @@
 package random.com.justchat;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintSet;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +26,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
 import random.com.justchat.databinding.ActivityChattingBinding;
+import random.com.justchat.databinding.BubbleLeftLayoutBinding;
+import random.com.justchat.databinding.BubbleRightLayoutBinding;
 import random.com.justchat.util.Codes;
 
 /**
@@ -34,10 +45,14 @@ import random.com.justchat.util.Codes;
 public class ChattingActivity extends AppCompatActivity {
     ActivityChattingBinding b;
     private final String TAG = this.getClass().getSimpleName();
-    private final boolean DEGUG = true;
+    private final boolean DEBUG = true;
     private SocketIO socket;
 
     private int type = -1;
+
+    private final String you = "You";
+    private final String stranger = "Stranger";
+    private final boolean current = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,10 @@ public class ChattingActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_layout);
+        getSupportActionBar().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.gradient_bar));
+
         b.newChatButton.setOnTouchListener(onNewChatTouchListener);
         b.optionsButton.setOnClickListener(onOptionsClickListener);
         b.sendEventTextView.setOnTouchListener(onSendTouchListener);
@@ -63,7 +82,7 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void reconnect() {
         try {
-            socket = new SocketIO("http://52.79.121.11:27800");
+            socket = new SocketIO("http://13.124.222.195:27800");
             socket.connect(ioCallback);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -83,12 +102,13 @@ public class ChattingActivity extends AppCompatActivity {
         @Override
         public void onDisconnect() {
             Log.d(TAG, "Disconnected");
+            statusBubble(getString(R.string.status_connection_lost));
         }
 
         @Override
         public void onConnect() {
-            socket.emit("roomCheck");
-
+            socket.emit(Codes.Event.roomCheck.val);
+            statusBubble(getString(R.string.status_waiting));
         }
 
         @Override
@@ -105,18 +125,28 @@ public class ChattingActivity extends AppCompatActivity {
         public void on(String event, IOAcknowledge ioAcknowledge, Object... objects) {
             String data = (new Gson()).toJson(objects);
 
-            if (event.equals(Codes.Event.completeMatch.val)) {
-
+            if(event.equals(Codes.Event.disConnect.val)) {
+                statusBubble(getString(R.string.status_connection_lost));
             }
 
             try {
                 JSONArray array = new JSONArray(data);
                 for (int i = 0; i < array.length(); i++) {
-                    if (event.equals(Codes.Event.completeMatch.val) && type == -1) {
+                    if (event.equals(Codes.Event.completeMatch.val)) {
                         JSONObject json = (array.getJSONObject(i)).getJSONObject("nameValuePairs");
+
                         if (json.getString(Codes.Key.resultCode.val).equals(Codes.success)) {
-                            type = Integer.parseInt(json.getString(Codes.Key.isRoom.val));
+                            if(json.getString(Codes.Key.isRoom.val).equals("1")) {
+                                statusBubble(getString(R.string.status_connected));
+                            }
+
+                            if(type == -1) {
+                                if (json.getString(Codes.Key.resultCode.val).equals(Codes.success)) {
+                                    type = Integer.parseInt(json.getString(Codes.Key.isRoom.val));
+                                }
+                            }
                         }
+
                     } else if (event.equals(Codes.Event.receiveMessage.val)) {
                         final String[] divided = (array.getString(i)).split("\\|");
                         if (divided.length >= 2) {
@@ -147,17 +177,27 @@ public class ChattingActivity extends AppCompatActivity {
     };
 
     private boolean isOptionOpened = false;
-    private boolean blockDup = true;
     private View.OnClickListener onOptionsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(blockDup) {
-                blockDup = false;
-                isOptionOpened = !isOptionOpened;
-                b.coverLayout.setVisibility(isOptionOpened? View.VISIBLE : View.INVISIBLE);
-                b.optionBox.setVisibility(isOptionOpened? View.VISIBLE : View.INVISIBLE);
-                b.optionsButton.setBackgroundResource(isOptionOpened ? R.drawable.btn_file_x : R.drawable.btn_file);
-                blockDup = true;
+            isOptionOpened = !isOptionOpened;
+            if(isOptionOpened) {
+//                b.optionBox.setVisibility(View.VISIBLE);
+//                ConstraintSet set = new ConstraintSet();
+//                set.constrainWidth(b.optionBox.getId(), getResources().getDimensionPixelSize(R.dimen.option_box_width));
+//                set.constrainHeight(b.optionBox.getId(), getResources().getDimensionPixelSize(R.dimen.option_box_height));
+//
+//                set.connect(b.optionBox.getId(), ConstraintSet.LEFT, b.chatRootLayout.getId(), ConstraintSet.LEFT, 41);
+//                set.connect(b.optionBox.getId(), ConstraintSet.BOTTOM, b.chatRootLayout.getId(), ConstraintSet.BOTTOM, 43);
+//
+//                set.applyTo(b.chatRootLayout);
+
+                b.coverLayout.setVisibility(View.VISIBLE);
+                b.optionsButton.setBackgroundResource(R.drawable.btn_file_x);
+            } else {
+                //b.optionBox.setVisibility(View.INVISIBLE);
+                b.coverLayout.setVisibility(View.INVISIBLE);
+                b.optionsButton.setBackgroundResource(R.drawable.btn_file);
             }
         }
     };
@@ -177,33 +217,90 @@ public class ChattingActivity extends AppCompatActivity {
         }
     };
 
-    public void statusBubble() {
-        
+    public void statusBubble(final String message) {
+        final Context context = this;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+
+
+                NotifyTextView textView = new NotifyTextView(ChattingActivity.this);
+                textView.setText(message);
+                textView.setPadding(32,18,32,18);
+
+                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp2.setMargins(15,15,15,15);
+                lp2.weight = 1.0f;
+
+                lp2.gravity = Gravity.CENTER;
+                textView.setBackgroundResource(R.drawable.text_box_stranger);
+                textView.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
+                textView.setLayoutParams(lp2);
+                b.insideLayout.addView(textView);
+            }
+        });
     }
 
-    public void chatBubble(String message, boolean type) {
-        TextView textView = new TextView(ChattingActivity.this);
-        textView.setText(message);
-        textView.setMaxWidth(600);
-        textView.setPadding(32,18,32,18);
+    BubbleLeftLayoutBinding leftBubble;
+    BubbleRightLayoutBinding rightBubble;
 
-        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp2.setMargins(15,15,15,15);
+    public void chatBubble(final String message, final boolean type) {
+        final Context context = this;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Calendar calendar = Calendar.getInstance();
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                String time = ((int)calendar.get(Calendar.AM_PM) == 1? "AM": "PM") + " " +
+                        calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE);
 
-        lp2.weight = 1.0f;
+                if(type == false) {
+                    leftBubble = BubbleLeftLayoutBinding.inflate(inflater, b.insideLayout, false);
+                    leftBubble.contentTextView.setText(message);
+                    leftBubble.timeTextView.setText(time);
+                    b.insideLayout.addView(leftBubble.chatBubbleLayout);
+                } else  {
+                    rightBubble = BubbleRightLayoutBinding.inflate(inflater, b.insideLayout, false);
+                    rightBubble.contentTextView.setText(message);
+                    rightBubble.timeTextView.setText(time);
+                    b.insideLayout.addView(rightBubble.chatBubbleLayout);
+                }
 
-        if(type == false) {
-            lp2.gravity = Gravity.LEFT;
-            textView.setMaxHeight(getResources().getDimensionPixelSize(R.dimen.chat_bubble_max_height));
-            textView.setBackgroundResource(R.drawable.text_box_stranger);
-        } else {
-            lp2.gravity = Gravity.RIGHT;
-            textView.setBackgroundResource(R.drawable.text_box_you);
-            textView.setTextColor(getColor(R.color.white));
+                scorllDown();
+            }
+        });
+    }
+
+
+    protected void scorllDown() {
+        TimerTask task;
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        b.chatScrollView.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(task, 240);
+    }
+
+
+    private class NotifyTextView extends TextView {
+        public NotifyTextView(Context context) {
+            super(context);
         }
 
-        textView.setLayoutParams(lp2);
-        b.insideLayout.addView(textView);
-        b.chatScrollView.fullScroll(View.FOCUS_FORWARD);
+        @Override
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            scorllDown();
+        }
     }
 }

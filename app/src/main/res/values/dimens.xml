@@ -2,5 +2,10 @@
 <resources>
     <dimen name="chat_bubble_max_width">208dp</dimen>
     <dimen name="chat_bubble_max_height">32dp</dimen>
+    <dimen name="chat_bubble_base_margin">4dp</dimen>
 
+    <dimen name="chat_bubble_base_padding">8dp</dimen>
+
+    <dimen name="option_box_width">140dp</dimen>
+    <dimen name="option_box_height">160dp</dimen>
 </resources>

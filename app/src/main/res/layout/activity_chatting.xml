@@ -4,86 +4,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/chattingBackground"
         android:id="@+id/chatRootLayout">
 
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/gradient_bar"
-            android:id="@+id/constraintLayout2">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/logo_titlebar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-
-
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/chatScrollView"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@+id/bottomChatTextLayout">
+            android:layout_marginBottom="60dp"
+            >
 
             <RelativeLayout
                 android:id="@+id/containerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+
                     android:id="@+id/insideLayout">
                 </LinearLayout>
             </RelativeLayout>
-
         </ScrollView>
 
-
-
-
         <android.support.constraint.ConstraintLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:background="@drawable/gradient_bar"
+            android:layout_alignParentBottom="true"
             android:id="@+id/bottomChatTextLayout"
-            android:clipChildren="true"
             >
-
-
 
             <ImageView
                 android:id="@+id/newChatButton"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+
                 android:layout_weight="1"
                 android:background="@drawable/btn_newchat"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -151,34 +112,206 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <ImageView
             android:id="@+id/coverLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:alpha="0.65"
-            android:background="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/bottomChatTextLayout"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
-            android:visibility="visible">
-        </android.support.constraint.ConstraintLayout>
+            android:src="@color/black"
+
+            android:visibility="invisible"
+            >
+        </ImageView>
 
 
         <include
             android:id="@+id/optionBox"
             android:layout_width="148dp"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
             layout="@layout/option_box_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/bottomChatTextLayout"
             android:layout_marginBottom="43dp"
             android:layout_marginLeft="41dp"
-            android:visibility="visible">
+            android:layout_marginStart="41dp"
+            android:visibility="invisible">
 
         </include>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+
+    <!--<android.support.constraint.ConstraintLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/chattingBackground"-->
+        <!--android:id="@+id/chatRootLayout">-->
+
+
+        <!--<android.support.constraint.ConstraintLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+            <!--android:background="@drawable/gradient_bar"-->
+            <!--android:id="@+id/constraintLayout2">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imageView2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/logo_titlebar"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--app:layout_constraintRight_toRightOf="parent"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginEnd="8dp" />-->
+
+        <!--</android.support.constraint.ConstraintLayout>-->
+
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="500dp"-->
+            <!--android:id="@+id/chatScrollView"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.0">-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/containerLayout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+
+                <!--&gt;-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+
+                    <!--android:id="@+id/insideLayout">-->
+                <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
+        <!--</ScrollView>-->
+
+        <!--<android.support.constraint.ConstraintLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--app:layout_constraintVertical_weight="999"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--android:background="@drawable/gradient_bar"-->
+            <!--android:id="@+id/bottomChatTextLayout"-->
+            <!--android:clipChildren="true">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/newChatButton"-->
+                <!--android:layout_width="36dp"-->
+                <!--android:layout_height="36dp"-->
+
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/btn_newchat"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--android:layout_marginBottom="12dp"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--android:layout_marginTop="12dp"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintVertical_bias="0.0"-->
+                <!--android:layout_marginStart="8dp" />-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/optionsButton"-->
+                <!--android:layout_width="36dp"-->
+                <!--android:layout_height="36dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/btn_file"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--android:layout_marginBottom="12dp"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--android:layout_marginTop="12dp"-->
+                <!--app:layout_constraintVertical_bias="0.0"-->
+                <!--app:layout_constraintLeft_toRightOf="@+id/newChatButton"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginStart="8dp" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/contentEditText"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="text"-->
+                <!--android:textColor="@android:color/background_light"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintLeft_toRightOf="@+id/optionsButton"-->
+                <!--app:layout_constraintRight_toLeftOf="@+id/sendEventTextView"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintVertical_bias="0.0"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginEnd="8dp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/sendEventTextView"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Send"-->
+                <!--android:textColor="@android:color/background_light"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintRight_toRightOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintVertical_bias="0.714"-->
+                <!--android:layout_marginEnd="8dp" />-->
+
+
+        <!--</android.support.constraint.ConstraintLayout>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/coverLayout"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:alpha="0.65"-->
+            <!--android:src="@color/black"-->
+            <!--app:layout_constraintBottom_toTopOf="@+id/bottomChatTextLayout"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/constraintLayout2"-->
+            <!--android:visibility="invisible"-->
+            <!--&gt;-->
+        <!--</ImageView>-->
+
+
+        <!--<include-->
+            <!--android:id="@+id/optionBox"-->
+            <!--android:layout_width="148dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--layout="@layout/option_box_layout"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/bottomChatTextLayout"-->
+            <!--android:layout_marginBottom="43dp"-->
+            <!--android:layout_marginLeft="41dp"-->
+            <!--android:layout_marginStart="41dp"-->
+            <!--android:visibility="invisible">-->
+
+        <!--</include>-->
+
+
+    <!--</android.support.constraint.ConstraintLayout-->
 
 </layout>

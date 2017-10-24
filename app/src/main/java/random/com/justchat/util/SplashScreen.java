@@ -18,8 +18,8 @@ public class SplashScreen extends Activity {
     private final int length = 2000;
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
 
         new Handler().postDelayed(new Runnable(){

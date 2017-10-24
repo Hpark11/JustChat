@@ -12,10 +12,10 @@
         <item name="colorControlHighlight">#ffffff</item>
     </style>
 
-    <style name="TitleBarTransparent" parent="AppTheme">
-        <item name="android:fitsSystemWindows">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+    <style name="TitleBarTransparent" parent="Theme.AppCompat.Light">
+        <!--<item name="android:fitsSystemWindows">false</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:statusBarColor">@color/keyColor2</item>
     </style>
 
 </resources>
